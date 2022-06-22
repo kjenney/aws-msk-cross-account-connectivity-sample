@@ -76,13 +76,9 @@ def write_mapping_to_file(filepath,mapping,use_quote=False):
             q = '"' if use_quote else ''
             fh.write(f'{k}={q}{v}{q}\n')
 
-def download_from_s3(bucket, key, local_filepath, endpoint_url=None):
-    s3_uri = f's3://{bucket}/{key}'
-    print(f"Downloading from s3://{bucket}/{key} to {local_filepath}")
-    cmd = ['aws','s3','cp',s3_uri,local_filepath]
-    if endpoint_url:
-        cmd.extend(['--endpoint-url',endpoint_url])
-    subprocess.check_call(cmd)
+def download_kafka_binary(url, local_filepath):
+    """Download Kafka Binary"""
+    urllib.request.urlretrieve(url, local_filepath)
 
 def install_rpm(rpm_filename):
     subprocess.call(['yum', 'install', '-y', rpm_filename])
@@ -182,7 +178,6 @@ def main():
     settings = json.loads(get_parameter(settings_parameter_name)) # load the parameter
     cluster_list = json.loads(get_parameter(cluster_list_parameter_name)) # use aws cli to get the MSK cluster list
     config_node_list = json.loads(get_parameter(config_node_parameter_name)) # use aws cli to get the node list 
-    binaries_bucket = settings['binaries_s3_bucket']
     log_bucket = settings['log_s3_bucket']
     confluent_package_filename = settings['confluent_package_filename']
     confluent_package_filepath = f'/root/{confluent_package_filename}'
@@ -200,7 +195,7 @@ def main():
         endpoint_url = get_s3_endpoint_url(vpc_id)
 
     install_rpm(java_version_name) # install Java
-    download_from_s3(binaries_bucket,confluent_package_filename,confluent_package_filepath,endpoint_url) # download kafka binary in S3
+    download_kafka_binary("https://dlcdn.apache.org/kafka/3.2.0/kafka_2.13-3.2.0.tgz", confluent_package_filepath)
     os.makedirs(confluent_dirpath,exist_ok=True)
     extract_confluent(confluent_package_filepath,confluent_dirpath) # unzip kafka binary
     config_node_list = config_MSK_Cluster(cluster_list,confluent_binpath,kafka_properties_filepath,config_node_list)

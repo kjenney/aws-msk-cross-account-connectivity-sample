@@ -1,7 +1,3 @@
-variable "iam_instance_profile_arn" {
-  type = string
-}
-
 variable "clusterlist" {
   type    = list(string)
   default = []
@@ -11,17 +7,9 @@ variable "confluent_package_filename" {
   type = string
 }
 
-variable "binaries_s3_bucket" {
-  type = string
-}
-
 variable "num_brokers" {
   type    = number
   default = 3
-}
-
-variable "msk_ami_account_id" {
-  type = string
 }
 
 variable "msk_kafka_version" {
@@ -37,4 +25,12 @@ variable "msk_instance_type" {
 variable "msk_ebs_volume_size" {
   type    = number
   default = 50
+}
+
+variable "ip_to_connect_from" {
+  type    = string
+}
+
+variable "ssh_key_name" {
+  type    = string
 }

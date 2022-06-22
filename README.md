@@ -22,7 +22,7 @@ This repo is used to implement the Amazon MSK clusters cross-account connectivit
 
 1. clone the repo from [github](https://github.com/aws-samples/aws-msk-cross-account-connectivity-sample)
 2. Download the kafka package `kafka_2.13-3.0.0.tgz` in Kafka [download page](https://kafka.apache.org/downloads) and upload to binaries s3 bucket.
-3. update the example.tfvars variable to fit your environment
+3. update the example.tfvars variable to fit your environment. * This means having an already existing SSH Key Pair.
 
 ### Execute command
 

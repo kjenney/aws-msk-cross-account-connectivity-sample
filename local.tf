@@ -9,8 +9,7 @@ locals {
     k.cluster_arn => k.node_info_list[*]
   }
   runtime_settings = jsonencode({
-    binaries_s3_bucket         = var.binaries_s3_bucket
-    log_s3_bucket              = var.binaries_s3_bucket
+    log_s3_bucket              = aws_s3_bucket.log-bucket.id
     confluent_package_filename = var.confluent_package_filename
     java_version_name          = "java-1.8.0-openjdk"
     s3_endpoint_type           = "gateway"

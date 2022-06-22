@@ -3,11 +3,11 @@
 
 data "aws_ami" "default" {
   most_recent = true
-  owners      = [var.msk_ami_account_id]
+  owners      = ["amazon"]
 
   filter {
     name   = "name"
-    values = ["amzn2-ami-hvm-2.*-x86_64-gp2"]
+    values = ["amzn2-ami-kernel-*-hvm-2.0.2022*"]
   }
 }
 
