@@ -20,15 +20,27 @@ This repo is used to implement the Amazon MSK clusters cross-account connectivit
 
 ### Prerequisite
 
-1. clone the repo from [github](https://github.com/aws-samples/aws-msk-cross-account-connectivity-sample)
-2. Download the kafka package `kafka_2.13-3.0.0.tgz` in Kafka [download page](https://kafka.apache.org/downloads) and upload to binaries s3 bucket.
-3. update the example.tfvars variable to fit your environment. * This means having an already existing SSH Key Pair.
+1. clone the repo from [github](https://github.com/kjenney/aws-msk-cross-account-connectivity-sample)
+2. Create an S3 bucket in the Service Provider account to store the Terraform state.
+3. Create an IAM role to assume into in the Service Provider account from the Service Consumer account.
+4. Create an SSH Key Pair in the Service Consumer account
+5. update the example.tfvars variable to fit your environment.
 
-### Execute command
+### Provision Server Provider
 
 ```sh
-terraform init
-terraform plan -var-file=example.tfvars -out .tfplan
+cd service_provider
+terraform init # Enter in the name of the Terraform state bucket to use
+terraform plan -var-file=../example.tfvars -out .tfplan
+terraform apply .tfplan
+```
+
+### Provision Server Consumer
+
+```sh
+cd service_consumer
+terraform init # Enter in the name of the Terraform state bucket to use
+terraform plan -var-file=../example.tfvars -out .tfplan
 terraform apply .tfplan
 ```
 

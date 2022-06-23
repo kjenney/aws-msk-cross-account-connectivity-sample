@@ -34,3 +34,11 @@ variable "ip_to_connect_from" {
 variable "ssh_key_name" {
   type    = string
 }
+
+variable "role_in_service_provider_account" {
+  type    = string
+}
+
+variable "state_bucket" {
+  type    = string
+}

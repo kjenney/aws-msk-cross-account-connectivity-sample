@@ -2,8 +2,10 @@
 // SPDX-License-Identifier: MIT-0
 
 resource "aws_vpc_endpoint_service" "msk" {
-  acceptance_required        = false
-  network_load_balancer_arns = [aws_lb.msk.arn]
+  provider                    = aws.service_provider_assume_role
+  acceptance_required         = false
+  network_load_balancer_arns  = [data.terraform_remote_state.service_provider.outputs.msk_nlb_arn]
+  allowed_principals          = [data.aws_caller_identity.current.arn]
 }
 
 resource "aws_security_group" "msk_endpoint" {
